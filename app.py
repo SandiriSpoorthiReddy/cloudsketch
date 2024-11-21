@@ -6,36 +6,39 @@ app.secret_key = 'your_secret_key'  # Replace with a secure random key
 
 @app.route('/')
 def home():
-    return render_template('login.html')  # Renders the HTML form
+    return render_template('login.html')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form.get('email')  # Updated form field names
-    password = request.form.get('password')
+    if request.method == 'POST':
+        username = request.form.get('Username')
+        password = request.form.get('Password')
+        
+        # Add actual validation (mocked here for simplicity)
+        if username == 'user@gmail.com' and password == 'pass':
+            session['logged_in'] = True  # Set session status
+            return redirect(url_for('index'))
+        else:
+            flash("Invalid username or password")
+            return redirect(url_for('home'))
 
-    # Mocked validation for simplicity
-    if username == 'user@gmail.com' and password == 'pass':
-        session['logged_in'] = True
-        return redirect(url_for('index'))
-    else:
-        flash("Invalid username or password")
-        return redirect(url_for('home'))
+    return render_template('login.html')
 
 @app.route('/index')
 def index():
-    if not session.get('logged_in'):  # Ensure the user is logged in
+    if not session.get('logged_in'):  # Check if user is logged in
         flash("Please log in first.")
         return redirect(url_for('home'))
-    return render_template('index.html')  # Create an `index.html` template
+    return render_template('index.html')
 
 @app.route('/run_hand_detection')
 def run_hand_detection():
-    if not session.get('logged_in'):
+    if not session.get('logged_in'):  # Ensure user is logged in
         flash("Please log in first.")
         return redirect(url_for('home'))
-
+    
     try:
-        # Run the HandDetection.py script
+        # Run HandDetection.py and capture output
         result = subprocess.run(['python', 'HandDetection.py'], check=True, capture_output=True, text=True)
         flash('Hand detection script ran successfully.')
         return redirect(url_for('index'))
