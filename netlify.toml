@@ -1,3 +1,0 @@
-[build]
-  publish = "my_flask_app"
-  functions = "my_flask_app/functions"
