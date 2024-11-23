@@ -3,7 +3,9 @@ import subprocess
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure random key
+
+# Securely generate a secret key for session management
+app.secret_key = os.urandom(24)  # Random key to ensure secure sessions
 
 @app.route('/')
 def home():
@@ -15,7 +17,7 @@ def login():
         username = request.form.get('Username')
         password = request.form.get('Password')
         
-        # Add actual validation (mocked here for simplicity)
+        # Validate username and password (simplified for this example)
         if username == 'user' and password == 'pass':
             session['logged_in'] = True  # Set session status
             return redirect(url_for('index'))
@@ -48,6 +50,8 @@ def run_hand_detection():
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
+    # Get the port from environment variable or use 5000 by default
     port = int(os.environ.get("PORT", 5000))
+    
+    # Run the Flask application
     app.run(host='0.0.0.0', port=port)
-    app.run(debug=True)
