@@ -43,7 +43,7 @@ def run_hand_detection():
     try:
         # Run HandDetection.py and capture output
         result = subprocess.run(['python', 'HandDetection.py'], check=True, capture_output=True, text=True)
-        flash('Hand detection script ran successfully.')
+        flash('Hand detection script ran successfully: {result.stdout}')
         return redirect(url_for('index'))
     except subprocess.CalledProcessError as e:
         flash(f'Error running hand detection: {e.stderr}')
@@ -55,4 +55,3 @@ if __name__ == '__main__':
     
     # Run the Flask application
     app.run(host='0.0.0.0', port=port)
-    app.run(debug=False)
