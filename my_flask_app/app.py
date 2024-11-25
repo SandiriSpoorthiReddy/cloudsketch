@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # Securely generate a secret key for session management
-app.secret_key = os.urandom(24)  # Random key to ensure secure sessions
+app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24)  # Random key to ensure secure sessions
 
 @app.route('/')
 def home():
@@ -51,7 +51,7 @@ def run_hand_detection():
 
 if __name__ == '__main__':
     # Get the port from environment variable or use 5000 by default
-    port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT", 5000))
     
     # Run the Flask application
     app.run(host='0.0.0.0', port=port)
