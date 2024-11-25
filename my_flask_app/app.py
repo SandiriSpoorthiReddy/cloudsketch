@@ -50,4 +50,4 @@ def run_hand_detection():
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run()
+    pp.run(debug=True)
