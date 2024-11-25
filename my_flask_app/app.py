@@ -50,8 +50,4 @@ def run_hand_detection():
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    # Get the port from environment variable or use 5000 by default
-    port = int(os.environ.get("PORT", 5000))
-    
-    # Run the Flask application
-    app.run(host='0.0.0.0', port=port)
+    app.run()
