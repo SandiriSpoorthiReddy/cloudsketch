@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_ngrok import run_with_ngrok
 import subprocess
 import os
 
 app = Flask(__name__)
-run_with_ngrok(app)
 app.secret_key = 'your_secret_key'  # Replace with a secure random key
 
 @app.route('/')
@@ -50,4 +48,5 @@ def run_hand_detection():
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5500))
+    app.run(host='0.0.0.0', port=port)
